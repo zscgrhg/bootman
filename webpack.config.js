@@ -44,11 +44,11 @@ module.exports = {
         return [require('autoprefixer')];
     },
     plugins: [
-        /*new webpack.DefinePlugin({
+        new webpack.DefinePlugin({
             'process.env':{
                 'NODE_ENV': JSON.stringify('production')
             }
-        }),*/
+        }),
         extractCSS,
         new HtmlWebpackPlugin({
             template: path.join(__dirname, "./web/index.tmpl.html")

@@ -10,9 +10,6 @@ buildscript {
         classpath 'org.springframework:springloaded:1.2.6.RELEASE'
     }
 }
-plugins {
-    id "com.moowork.node" version "0.13"
-}
 
 
 apply plugin: 'java'
@@ -85,22 +82,8 @@ gradle.taskGraph.whenReady { taskGraph ->
     }
 }
 
-node {
-    version = '6.9.1'
-    npmVersion = '3.10.8'
-    download = true
-    workDir = file("${project.projectDir}/endorsed")
-    nodeModulesDir = file("${project.projectDir}")
-}
-
-task bundle(type: NpmTask) {
-    inputs.file(new File('package.json'))
-    inputs.file(new File('webpack.config.js'))
-    inputs.dir(new File('web'))
-    outputs.dir(new File("$buildDir/resources/main/static/content/"))
-    args = ['run', 'bundle']
-}
 
 
-bundle.dependsOn(npmInstall)
+apply from: 'bundle.gradle'
+
 jar.dependsOn(bundle)

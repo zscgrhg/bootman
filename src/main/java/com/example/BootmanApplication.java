@@ -10,8 +10,5 @@ public class BootmanApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(BootmanApplication.class, args);
-		while (true){
-			log.debug("this is test log rolling");
-		}
 	}
 }

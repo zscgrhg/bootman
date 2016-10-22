@@ -1,0 +1,36 @@
+//execute `npm install` then execute `npm run bundle`
+//if `node` and `npm` not in path,this wont work
+
+import org.gradle.internal.os.OperatingSystem;
+
+def current = OperatingSystem.current()
+println "OperatingSystem:${current}"
+final boolean On_WINDOWS = current.isWindows()
+
+task npmInstall(type: Exec) {
+    workingDir "${project.projectDir}"
+    if (On_WINDOWS) {
+        commandLine 'cmd', '/c', 'npm', 'install'
+    } else {
+        commandLine 'npm', 'install'
+    }
+
+    inputs.file(new File('package.json'))
+    outputs.dir(new File("${project.projectDir}/node_modules"))
+}
+
+task bundle(type: Exec) {
+    workingDir "${project.projectDir}"
+    if (On_WINDOWS) {
+        commandLine 'cmd', '/c', 'npm', 'run', 'bundle'
+    } else {
+        commandLine 'npm', 'run', 'bundle'
+    }
+
+    inputs.file(new File('package.json'))
+    inputs.file(new File('webpack.config.js'))
+    inputs.dir(new File('web'))
+    outputs.dir(new File("$buildDir/resources/main/static/content/"))
+}
+
+bundle.dependsOn(npmInstall)

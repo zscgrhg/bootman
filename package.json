@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "frontend",
   "dependencies": {
-    "npm":"3.10.8",
     "babel-core": "^6.5.1",
     "babel-loader": "^6.2.2",
     "babel-preset-es2015": "^6.5.0",
