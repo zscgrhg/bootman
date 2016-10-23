@@ -17,10 +17,6 @@ apply plugin: 'spring-boot'
 apply plugin: 'idea'
 apply plugin: 'application'
 
-mainClassName = "com.example.BootmanApplication"
-applicationDefaultJvmArgs = [
-        "-Dfile.encoding=UTF8"
-]
 
 idea {
     module {
@@ -85,5 +81,12 @@ gradle.taskGraph.whenReady { taskGraph ->
 
 
 apply from: 'bundle.gradle'
+apply from: 'dist.gradle'
 
+newdist {
+    mainClassName = "com.example.BootmanApplication"
+    applicationName = "kylin"
+    defaultJvmOpts = ["-Dfile.encoding=UTF8"]
+}
 jar.dependsOn(bundle)
+

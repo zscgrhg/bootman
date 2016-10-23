@@ -1,0 +1,59 @@
+apply plugin: 'application'
+
+class JarDistribution{
+    def applicationName;
+    def defaultJvmOpts=[];
+    def mainClassName
+}
+
+assembleDist{
+    enabled=false
+    group="other"
+}
+distZip{
+    enabled=false
+    group="other"
+}
+distTar{
+    enabled=false
+    group="other"
+}
+startScripts{
+    enabled=false
+    group="other"
+}
+
+def newDist(@DelegatesTo(JarDistribution)Closure clouser){
+    JarDistribution d=new JarDistribution();
+    def code = clouser.rehydrate(d, this, this)
+    code.resolveStrategy = Closure.DELEGATE_ONLY
+    code()
+    final String taskName="create${d.applicationName}StartScripts"
+    def ta=tasks.create(type: CreateStartScripts,name:taskName){
+        outputDir=new File("${buildDir}/scripts-${d.applicationName}")
+        mainClassName = d.mainClassName?:startScripts.mainClassName
+        defaultJvmOpts= d.defaultJvmOpts
+        classpath=startScripts.classpath
+        applicationName=d.applicationName
+    }
+
+    distributions {
+        "${d.applicationName}" {
+            baseName = d.applicationName
+            contents{
+                from(ta){
+                    into "bin"
+                }
+                with(distributions.main.contents{
+                    include "*.jar"
+                })
+            }
+        }
+    }
+}
+
+project.ext.newdist=this.&newDist
+
+
+
+
