@@ -1,7 +1,7 @@
 package com.example.service.impl;
 
-import com.example.domain.Authority;
-import com.example.service.inferface.AuthorityService;
+import com.example.domain.GGroup;
+import com.example.service.inferface.GGroupService;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -12,13 +12,13 @@ import javax.transaction.Transactional;
  * Created by THINK on 2016/10/24.
  */
 @Service
-@Transactional
-public class AuthotityServiceImpl implements AuthorityService{
+@Transactional(rollbackOn = Throwable.class)
+public class GGroupServiceImpl implements GGroupService {
     @PersistenceContext
-    private EntityManager em;
+    EntityManager em;
     @Override
-    public Class<Authority> getEntityClass() {
-        return Authority.class;
+    public Class<GGroup> getEntityClass() {
+        return GGroup.class;
     }
 
     @Override

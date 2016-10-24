@@ -4,7 +4,6 @@ package com.example.secure;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -29,6 +28,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 
 import javax.sql.DataSource;
+import java.security.SecureRandom;
 
 /**
  *
@@ -36,9 +36,8 @@ import javax.sql.DataSource;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
-@Order(Integer.MAX_VALUE)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
+    public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder(10, new SecureRandom());
 
     @Autowired
     DataSource dataSource;
@@ -54,22 +53,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/content/**",
-                "/error",
-                "/error.html", "/favicon.ico");
+        web.ignoring()
+                .antMatchers("/content/**");
     }
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
 
-        http.csrf().disable()
-                .formLogin()
-                .and()
-                .requestMatchers().antMatchers("/**")
+        http.requestMatchers()
+                .antMatchers("/api/**")
                 .and()
                 .authorizeRequests()
-                .anyRequest().authenticated()
+                .anyRequest()
+                .authenticated()
                 .and()
+                .httpBasic().and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                 .maximumSessions(1);
@@ -85,7 +83,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     @Configuration
-    @Order(1)
     @EnableResourceServer
     protected static class ResourceServer extends ResourceServerConfigurerAdapter {
 
@@ -101,17 +98,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         @Override
         public void configure(HttpSecurity http) throws Exception {
-            http
-                    .requestMatchers().antMatchers("/rest/**")
-                    .and().authorizeRequests()
+            http.requestMatchers().antMatchers("/rest/**")
+                    .and()
+                    .authorizeRequests()
                     .anyRequest()
                     .authenticated()
                     .and().requiresChannel()
-                    .anyRequest().requiresSecure()
+                    .anyRequest()
+                    .requiresSecure()
                     .and()
                     .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                     .maximumSessions(1);
+            http.portMapper().http(80).mapsTo(443);
         }
     }
 

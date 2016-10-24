@@ -24,14 +24,14 @@ import java.util.*;
 /**
  * Created by THINK on 2016/10/23.
  */
-@Transactional
+@Transactional(rollbackOn = Throwable.class)
 public interface CrudSupport<T> extends Crud<T> {
 
 
     EntityManager getEntityManager();
 
 
-    default void insert(T entity) {
+    default void create(T entity) {
         getEntityManager().persist(entity);
     }
 
@@ -41,7 +41,7 @@ public interface CrudSupport<T> extends Crud<T> {
     }
 
 
-    default void insertList(Collection<T> entityCollection) {
+    default void createAll(Collection<T> entityCollection) {
 
     }
 

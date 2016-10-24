@@ -11,14 +11,14 @@ import java.util.List;
 /**
  * Created by THINK on 2016/10/23.
  */
-@Transactional
+
 public interface Crud<T> {
     Class<T> getEntityClass();
-    void insert(T entity);
+    void create(T entity);
 
     void update(T entity);
 
-    public void insertList(Collection<T> entityCollection);
+    public void createAll(Collection<T> entityCollection);
 
 
     public void delete(T entity);

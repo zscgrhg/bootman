@@ -1,10 +1,17 @@
 package com.example.runner;
 
-import com.example.domain.Manager;
-import com.example.service.inferface.ManagerService;
+
+import com.example.domain.RoleConst;
+import com.example.domain.GGroup;
+import com.example.domain.UUser;
+import com.example.service.inferface.GGroupService;
+import com.example.service.inferface.UUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by THINK on 2016/4/21.
@@ -12,19 +19,29 @@ import org.springframework.stereotype.Component;
 @Component
 public class DbInit implements CommandLineRunner {
 
-
     @Autowired
-    ManagerService managerService;
+    UUserService userService;
+    @Autowired
+    GGroupService groupService;
 
     @Override
     public void run(String... args) throws Exception {
 
         try {
+            GGroup var_group = new GGroup();
+            var_group.setName("user");
+            var_group.setDescription("auto_create");
+            var_group.setAuthorities(new String[]{RoleConst.ROLE_USER, RoleConst.ROLE_ADMIN});
+            groupService.create(var_group);
             for (int i = 0; i < 10; i++) {
-                Manager manager = new Manager();
-                manager.setName("first blood "+i);
-                manager.setPassword("1234");
-                managerService.insert(manager);
+                UUser var_user = new UUser();
+                var_user.setUsername("user" + i);
+                var_user.setPassword("1234");
+                var_user.setEnabled(i % 2 == 0);
+                List<GGroup> var_groups = new ArrayList<>();
+                var_groups.add(var_group);
+                var_user.setGroups(var_groups);
+                userService.create(var_user);
             }
         } catch (Exception e) {
             e.printStackTrace();
