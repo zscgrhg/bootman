@@ -1,0 +1,19 @@
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:noNamespaceSchemaLocation="ehcache.xsd">
+	<cache name="template"
+		   maxEntriesLocalHeap="50"
+		   timeToLiveSeconds="7200">
+	</cache>
+	<cache name="report"
+		   maxEntriesLocalHeap="200"
+		   timeToLiveSeconds="7200">
+	</cache>
+	<cache name="xls"
+		   maxEntriesLocalHeap="50"
+		   timeToLiveSeconds="7200">
+	</cache>
+	<cache name="xlsx"
+		   maxEntriesLocalHeap="50"
+		   timeToLiveSeconds="7200">
+	</cache>
+</ehcache>

@@ -20,9 +20,9 @@
     </appender>
 
 
-    <logger name="org.springframework" level="DEBUG"/>
+    <logger name="org.springframework" level="INFO"/>
     <logger name="org.springframework.orm.jpa" level="ERROR"/>
-    <logger name="org.springframework.cache" level="DEBUG"/>
+    <logger name="org.springframework.cache" level="ERROR"/>
     <root level="DEBUG">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="FILE"/>
