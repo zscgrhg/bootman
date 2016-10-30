@@ -11,7 +11,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by THINK on 2016/4/21.
@@ -31,13 +33,16 @@ public class DbInit implements CommandLineRunner {
             GGroup var_group = new GGroup();
             var_group.setName("user");
             var_group.setDescription("auto_create");
-            var_group.setAuthorities(new String[]{RoleConst.ROLE_USER, RoleConst.ROLE_ADMIN});
+            HashSet<String> a=new HashSet<>();
+            a.add(RoleConst.ROLE_USER);
+            a.add(RoleConst.ROLE_ADMIN);
+            var_group.setAuthorities(a);
             groupService.create(var_group);
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 20; i++) {
                 UUser var_user = new UUser();
                 var_user.setUsername("user" + i);
                 var_user.setPassword("1234");
-                var_user.setEnabled(i % 2 == 0);
+                var_user.setEnabled(true);
                 List<GGroup> var_groups = new ArrayList<>();
                 var_groups.add(var_group);
                 var_user.setGroups(var_groups);

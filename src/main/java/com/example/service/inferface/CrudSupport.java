@@ -4,8 +4,7 @@ import com.example.service.condition.Condition;
 import com.example.service.condition.ConditionMap;
 import com.example.service.condition.Mapper;
 import com.example.service.condition.Pagination;
-import com.example.service.inferface.Crud;
-import org.springframework.cglib.beans.BeanMap;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
@@ -26,6 +25,7 @@ import java.util.*;
  */
 @Transactional(rollbackOn = Throwable.class)
 public interface CrudSupport<T> extends Crud<T> {
+
 
 
     EntityManager getEntityManager();
@@ -82,7 +82,7 @@ public interface CrudSupport<T> extends Crud<T> {
         return ((Long) q.getSingleResult()).intValue();
     }
 
-    default List<T> findAllByConditionMap(ConditionMap conditionMap) {
+    default List<T> findAllByConditionMap(ConditionMap<T> conditionMap) {
         CriteriaQuery cq = createQuery(conditionMap);
         Set<Root> roots = cq.getRoots();
         Root rt = roots.iterator().next();
@@ -93,7 +93,7 @@ public interface CrudSupport<T> extends Crud<T> {
         return query.getResultList();
     }
 
-    default Pagination<T> findByConditionMap(ConditionMap conditionMap) {
+    default Pagination<T> findByConditionMap(ConditionMap<T> conditionMap) {
         CriteriaQuery cq = createQuery(conditionMap);
         Set<Root> roots = cq.getRoots();
         Root rt = roots.iterator().next();
@@ -112,7 +112,7 @@ public interface CrudSupport<T> extends Crud<T> {
         return pagination;
     }
 
-    default CriteriaQuery createQuery(ConditionMap conditionMap) {
+    default CriteriaQuery createQuery(ConditionMap<T> conditionMap) {
         Metamodel metamodel = getEntityManager().getMetamodel();
         EntityType<?> entityType = metamodel.entity(getEntityClass());
 

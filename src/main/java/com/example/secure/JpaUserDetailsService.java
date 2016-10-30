@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -24,21 +25,22 @@ public class JpaUserDetailsService implements UserDetailsService {
     UUserService userService;
 
     @Override
+    @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        UUser x_user = userService.loadUUserAndAuthoritiesById(username);
-        Collection<GGroup> x_groups = x_user.getGroups();
-        HashSet<String> x_authorities = new HashSet<>();
-        for (GGroup x_group : x_groups) {
-            x_authorities.addAll(Arrays.asList(x_group.getAuthorities()));
+        UUser var_user = userService.loadUUserAndAuthoritiesById(username);
+        Collection<GGroup> var_groups = var_user.getGroups();
+        HashSet<String> var_roles = new HashSet<>();
+        for (GGroup var_g : var_groups) {
+            var_roles.addAll(var_g.getAuthorities());
         }
-        List<GrantedAuthority> x_granted = new ArrayList<>();
-        for (String x_authority : x_authorities) {
-            x_granted.add(new SimpleGrantedAuthority(x_authority));
+        List<GrantedAuthority> var_granted = new ArrayList<>();
+        for (String var_r : var_roles) {
+            var_granted.add(new SimpleGrantedAuthority(var_r));
         }
-        return new User(x_user.getUsername(), x_user.getPassword()
-                , x_user.isEnabled()
+        return new User(var_user.getUsername(), var_user.getPassword()
+                , var_user.isEnabled()
                 , true, true, true,
-                x_granted);
+                var_granted);
     }
 }

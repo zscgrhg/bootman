@@ -23,7 +23,10 @@
     <logger name="org.springframework" level="INFO"/>
     <logger name="org.springframework.orm.jpa" level="ERROR"/>
     <logger name="org.springframework.cache" level="ERROR"/>
-    <root level="DEBUG">
+    <logger name="org.springsource.loaded.TypeRegistry" level="OFF"/>
+    <logger name="com.fasterxml.jackson" level="ERROR"/>
+    <logger name="com.example" level="DEBUG"/>
+    <root level="INFO">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="FILE"/>
     </root>

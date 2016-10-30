@@ -60,7 +60,9 @@ dependencies {
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
-
+bootRun {
+    jvmArgs "-Dspringloaded=explain"
+}
 
 task neverUpToDate(group: 'All-Tasks-ReRun')
 
@@ -89,4 +91,6 @@ newdist {
 }
 
 jar.dependsOn(bundle)
+
+
 

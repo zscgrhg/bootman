@@ -2,6 +2,7 @@ package com.example.service.inferface;
 
 import com.example.service.condition.ConditionMap;
 import com.example.service.condition.Pagination;
+import org.springframework.beans.factory.InitializingBean;
 
 
 import javax.transaction.Transactional;
@@ -11,7 +12,7 @@ import java.util.List;
 /**
  * Created by THINK on 2016/10/23.
  */
-
+@Transactional
 public interface Crud<T> {
     Class<T> getEntityClass();
     void create(T entity);
@@ -30,6 +31,6 @@ public interface Crud<T> {
     public List<T> findRange(int from, int to);
 
     public int count();
-    public List<T> findAllByConditionMap(ConditionMap conditionMap);
-    public Pagination<T> findByConditionMap(ConditionMap conditionMap);
+    public List<T> findAllByConditionMap(ConditionMap<T> conditionMap);
+    public Pagination<T> findByConditionMap(ConditionMap<T> conditionMap);
 }

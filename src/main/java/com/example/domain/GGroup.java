@@ -1,18 +1,23 @@
 package com.example.domain;
 
 import lombok.Data;
+import lombok.ToString;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by THINK on 2016/10/24.
  */
 @Data
 @Entity
+@ToString(exclude = {"users"})
 public class GGroup implements Serializable {
 
     private static final long serialVersionUID = -3319399054490265347L;
@@ -20,6 +25,9 @@ public class GGroup implements Serializable {
     String name;
     String description;
     @ManyToMany(mappedBy = "groups")
+
     Collection<UUser> users;
-    String[] authorities;
+    @ElementCollection
+
+    Set<String> authorities;
 }

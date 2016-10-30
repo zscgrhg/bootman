@@ -12,7 +12,7 @@ import java.util.Map;
  */
 @EqualsAndHashCode
 @Data
-public abstract class ConditionMap {
+public abstract class ConditionMap<T> {
     private int page = 0;
     private int pageSize = 10;
     private boolean distinct = true;

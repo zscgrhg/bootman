@@ -14,9 +14,9 @@ import java.time.LocalDateTime;
 @Slf4j
 public class CronTest{
 
-	@Scheduled(cron = "0/5 * * * * ?")
+	@Scheduled(cron = "0/30 * * * * ?")
 	public void hello() {
 		LocalDateTime localDateTime= LocalDateTime.now();
-		log.info("这是一个定时任务,每5秒执行一次- "+localDateTime.toString());
+		log.info("这是一个定时任务,每30秒执行一次- "+localDateTime.toString());
 	}
 }

@@ -1,6 +1,7 @@
 package com.example.controller;
 
 
+import com.example.domain.UUser;
 import com.example.service.condition.Compare;
 import com.example.service.condition.ConditionMap;
 import com.example.service.condition.Mapper;
@@ -18,24 +19,23 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("api/manager")
-public class UUserController extends BaseController{
-
-
+public class UUserController extends BaseController {
 
 
     @Data
     @EqualsAndHashCode(callSuper = true)
-    public static class UUserQuery extends ConditionMap{
+    public static class UUserQuery extends ConditionMap<UUser> {
 
         String username;
 
-        static final List<Mapper> mapers ;
+        static final List<Mapper> mapers;
 
         static {
-            List<Mapper> m=new ArrayList<>();
-            m.add(new Mapper("username","username",Compare.EQ(String.class)));
-            mapers= Collections.unmodifiableList(m);
+            List<Mapper> m = new ArrayList<>();
+            m.add(new Mapper("username", "username", Compare.EQ(String.class)));
+            mapers = Collections.unmodifiableList(m);
         }
+
         @Override
         public List<Mapper> getMapper() {
             return mapers;
