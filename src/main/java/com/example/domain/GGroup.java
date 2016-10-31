@@ -28,6 +28,5 @@ public class GGroup implements Serializable {
 
     Collection<UUser> users;
     @ElementCollection
-
     Set<String> authorities;
 }

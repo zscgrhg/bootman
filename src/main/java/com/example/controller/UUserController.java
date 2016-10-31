@@ -2,17 +2,14 @@ package com.example.controller;
 
 
 import com.example.domain.UUser;
-import com.example.service.condition.Compare;
-import com.example.service.condition.ConditionMap;
-import com.example.service.condition.Mapper;
+import com.example.jpa.condition.ConditionList;
+import com.example.response.Pageable;
+import com.example.service.repos.UUserRopository;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Created by THINK on 2016/10/23.
@@ -20,25 +17,38 @@ import java.util.List;
 @RestController
 @RequestMapping("api/manager")
 public class UUserController extends BaseController {
+    @Autowired
+    UUserRopository uUserRopository;
 
+    @RequestMapping("cond")
+    public Iterable<UUser> find() {
+        Iterable<UUser> v_all = uUserRopository.findAll();
+        return v_all;
+    }
+    @RequestMapping("query")
+    public UUser getByUserName() {
+        UUser user1 = uUserRopository.loadUUserAndAuthoritiesById("user1");
+        return user1;
+    }
+
+    @RequestMapping("cond1")
+    public Pageable<UUser> find(SearchCondition searchCondition) {
+        return uUserRopository.findPageByConditions(searchCondition.build());
+    }
 
     @Data
     @EqualsAndHashCode(callSuper = true)
-    public static class UUserQuery extends ConditionMap<UUser> {
-
+    public static class SearchCondition extends ConditionList.Builder<UUser> {
         String username;
-
-        static final List<Mapper> mapers;
-
-        static {
-            List<Mapper> m = new ArrayList<>();
-            m.add(new Mapper("username", "username", Compare.EQ(String.class)));
-            mapers = Collections.unmodifiableList(m);
-        }
+        Boolean enabled;
 
         @Override
-        public List<Mapper> getMapper() {
-            return mapers;
+        public void conditions() {
+            eq("username", username);
+            eq("enabled", enabled);
+            maxResult(5);
+            orderBy("username");
         }
     }
+
 }

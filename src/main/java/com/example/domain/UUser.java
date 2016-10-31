@@ -27,6 +27,9 @@ public class UUser implements Serializable {
     boolean enabled;
     @ManyToMany
     Collection<GGroup> groups;
+    @Version
+    @JsonIgnore
+    long version;
 
 
     public void setPassword(String password) {
