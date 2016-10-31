@@ -16,14 +16,14 @@ import java.util.List;
  */
 
 
-public class MyRepositoryImpl<T, ID extends Serializable>
-        extends SimpleJpaRepository<T, ID> implements MyRepository<T, ID> {
+public class BaseRepositoryImpl<T, ID extends Serializable>
+        extends SimpleJpaRepository<T, ID> implements BaseRepository<T, ID> {
 
     private final EntityManager entityManager;
     private final Class<T> domainClass;
 
-    public MyRepositoryImpl(JpaEntityInformation entityInformation,
-                            EntityManager entityManager) {
+    public BaseRepositoryImpl(JpaEntityInformation entityInformation,
+                              EntityManager entityManager) {
         super(entityInformation, entityManager);
         this.entityManager = entityManager;
         this.domainClass = entityInformation.getJavaType();

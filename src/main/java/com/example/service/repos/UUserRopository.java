@@ -10,7 +10,7 @@ import javax.persistence.LockModeType;
 /**
  * Created by THINK on 2016/10/31.
  */
-public interface UUserRopository extends MyRepository<UUser,String>{
+public interface UUserRopository extends BaseRepository<UUser,String> {
     @Lock(LockModeType.READ)
     Iterable<UUser> findAll();
 

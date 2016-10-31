@@ -15,7 +15,7 @@ import java.io.Serializable;
 
 @NoRepositoryBean
 @Transactional
-public interface MyRepository<T, ID extends Serializable>
+public interface BaseRepository<T, ID extends Serializable>
         extends PagingAndSortingRepository<T, ID> {
     @Transactional
     Pageable<T> findPageByConditions(ConditionList<T> conditionList) ;
