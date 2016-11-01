@@ -1,5 +1,6 @@
 package com.example.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.ToString;
 
@@ -25,7 +26,7 @@ public class GGroup implements Serializable {
     String name;
     String description;
     @ManyToMany(mappedBy = "groups")
-
+    @JsonIgnore
     Collection<UUser> users;
     @ElementCollection
     Set<String> authorities;

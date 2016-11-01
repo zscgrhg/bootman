@@ -59,7 +59,7 @@ public class Config extends WebMvcConfigurerAdapter {
         FilterProvider filterProvider =
                 new SimpleFilterProvider()
                         .addFilter(DepthLimitFilter.ID,
-                                new DepthLimitFilter(3));
+                                new DepthLimitFilter(5));
         return filterProvider;
     }
 

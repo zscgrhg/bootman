@@ -22,7 +22,7 @@ public class UUserController extends BaseController {
     @Autowired
     UUserRopository uUserRopository;
 
-    @RequestMapping("cond")
+    @RequestMapping("all")
     public Iterable<UUser> find() {
         Iterable<UUser> v_all = uUserRopository.findAll();
         return v_all;
@@ -34,7 +34,7 @@ public class UUserController extends BaseController {
         return user1;
     }
 
-    @RequestMapping("cond1")
+    @RequestMapping("cond")
     public Pageable<UUser> find(SearchCondition searchCondition) {
         return uUserRopository.findPageByConditions(searchCondition.build());
     }
@@ -49,11 +49,13 @@ public class UUserController extends BaseController {
     public static class SearchCondition extends ConditionList.Builder<UUser> {
         String username;
         Boolean enabled;
+        String hasa;
 
         @Override
         public void conditions() {
             eq("username", username);
             eq("enabled", enabled);
+            isMember("groups.authorities", hasa);
             maxResult(5);
             orderBy("username");
         }
