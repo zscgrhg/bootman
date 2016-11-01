@@ -1,7 +1,7 @@
 package com.example.service.repos;
 
 import com.example.domain.UUser;
-import com.example.orm.LoadPlans;
+import com.example.fetch.LoadPlans;
 import com.example.response.UUserPro;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.Lock;

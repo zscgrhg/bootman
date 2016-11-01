@@ -1,4 +1,4 @@
-package com.example.orm;
+package com.example.fetch;
 
 import com.example.domain.GGroup;
 import com.example.domain.UUser;
@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Subgraph;
 
 /**

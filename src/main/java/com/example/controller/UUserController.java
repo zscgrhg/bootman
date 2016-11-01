@@ -9,7 +9,6 @@ import com.example.service.repos.UUserRopository;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -49,13 +48,13 @@ public class UUserController extends BaseController {
     public static class SearchCondition extends ConditionList.Builder<UUser> {
         String username;
         Boolean enabled;
-        String hasa;
+        String hasauth;
 
         @Override
         public void conditions() {
             eq("username", username);
             eq("enabled", enabled);
-            isMember("groups.authorities", hasa);
+            isMember("groups.authorities", hasauth);
             maxResult(5);
             orderBy("username");
         }
