@@ -31,7 +31,7 @@ public class JpaUserDetailsService implements UserDetailsService {
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        UUser var_user = uUserRopository.loadUUserAndAuthoritiesById(username);
+        UUser var_user = uUserRopository.findOne(username);
         Collection<GGroup> var_groups = var_user.getGroups();
         HashSet<String> var_roles = new HashSet<>();
         for (GGroup var_g : var_groups) {
@@ -41,9 +41,11 @@ public class JpaUserDetailsService implements UserDetailsService {
         for (String var_r : var_roles) {
             var_granted.add(new SimpleGrantedAuthority(var_r));
         }
-        return new User(var_user.getUsername(), var_user.getPassword()
-                , var_user.isEnabled()
-                , true, true, true,
+        return new User(
+                var_user.getUsername(),
+                var_user.getPassword(),
+                var_user.isEnabled(),
+                true, true, true,
                 var_granted);
     }
 }

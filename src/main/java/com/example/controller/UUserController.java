@@ -4,10 +4,12 @@ package com.example.controller;
 import com.example.domain.UUser;
 import com.example.jpa.condition.ConditionList;
 import com.example.response.Pageable;
+import com.example.response.UUserPro;
 import com.example.service.repos.UUserRopository;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,15 +27,21 @@ public class UUserController extends BaseController {
         Iterable<UUser> v_all = uUserRopository.findAll();
         return v_all;
     }
+
     @RequestMapping("query")
     public UUser getByUserName() {
-        UUser user1 = uUserRopository.loadUUserAndAuthoritiesById("user1");
+        UUser user1 = uUserRopository.loadUUserAndAuthoritiesByUsername("user1");
         return user1;
     }
 
     @RequestMapping("cond1")
     public Pageable<UUser> find(SearchCondition searchCondition) {
         return uUserRopository.findPageByConditions(searchCondition.build());
+    }
+
+    @RequestMapping("pro")
+    public UUserPro projection() {
+        return uUserRopository.findByUsername(getCurrentUser().getUsername());
     }
 
     @Data
